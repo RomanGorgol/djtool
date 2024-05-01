@@ -1,0 +1,22 @@
+﻿<Window x:Class="DjTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DjTool" xmlns:views="clr-namespace:DjTool.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+            <Button Grid.Row="0" x:Name="SelectFilesButton" Width="100" Margin="20 10 0 0 " Click="SelectFilesButton_Click" >Выбрать файлы</Button>
+            <Button Grid.Row="0" x:Name="SaveNumbersButton" Width="120" Margin="20 10 0 0 " Click="SaveNumbersButton_Click" >Сохранить номера</Button>
+            <Button Grid.Row="0" x:Name="ClearNumbersButton" Width="120" Margin="20 10 0 0 " Click="ClearNumbersButton_Click"  >Очистить номера</Button>
+        </StackPanel>
+        <views:TodoView x:Name="Lists"  Grid.Row="1" />
+    </Grid>
+</Window>
