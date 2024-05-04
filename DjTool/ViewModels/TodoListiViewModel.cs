@@ -39,9 +39,6 @@ namespace DjTool.ViewModels
 
             if(oldIndex != -1 && nextIndex != -1)   
             {
-                //                insertedTodoItem.SetOrder(_todoItemViewModels.IndexOf(insertedTodoItem) + 1);
-                //              targetTodoItem.SetOrder(_todoItemViewModels.IndexOf(targetTodoItem) + 1);
-
                 insertedTodoItem.SetOrder(nextIndex + 1);
                 targetTodoItem.SetOrder(oldIndex + 1);
 
@@ -52,6 +49,10 @@ namespace DjTool.ViewModels
         public void RemoveTodoItem(TodoItemViewModel item)
         {
             _todoItemViewModels.Remove(item);
+            for(var i = 0; i < _todoItemViewModels.Count; i++)
+            {
+                _todoItemViewModels[i].SetOrder(i+1);
+            }
         }
     }
 }
