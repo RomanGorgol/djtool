@@ -40,14 +40,19 @@ namespace DjTool.Views
 
                 var item = this.lvItems.SelectedItem;
                 CurrentItem = (TodoItemViewModel)item;
-
-                DragDropEffects dragDropResult = DragDrop.DoDragDrop(frameworkElement, new DataObject(DataFormats.Serializable, item), DragDropEffects.Move);
-
-                if (dragDropResult == DragDropEffects.None)
+                
+                if (CurrentItem != null) 
                 {
-                    AddTodoItem(CurrentItem);
+                    DragDropEffects dragDropResult = DragDrop.DoDragDrop(frameworkElement, new DataObject(DataFormats.Serializable, item), DragDropEffects.Move);
+
+                    if (dragDropResult == DragDropEffects.None)
+                    {
+                        AddTodoItem(CurrentItem);
+                    }
                 }
-            }
+
+            }else
+                base.OnMouseMove(e);
         }
 
 
