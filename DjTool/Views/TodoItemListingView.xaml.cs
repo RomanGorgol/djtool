@@ -39,9 +39,9 @@ namespace DjTool.Views
                 DataObject data = new DataObject();
 
                 var item = this.lvItems.SelectedItem;
-                CurrentItem = (TodoItemViewModel) item;
+                CurrentItem = (TodoItemViewModel)item;
 
-                DragDropEffects dragDropResult = DragDrop.DoDragDrop(frameworkElement, new DataObject(DataFormats.Serializable, item),  DragDropEffects.Move);
+                DragDropEffects dragDropResult = DragDrop.DoDragDrop(frameworkElement, new DataObject(DataFormats.Serializable, item), DragDropEffects.Move);
 
                 if (dragDropResult == DragDropEffects.None)
                 {
@@ -106,7 +106,6 @@ namespace DjTool.Views
 
         private void CheckScroll(object sender, System.Windows.DragEventArgs e)
         {
-            Trace.WriteLine("scroll "+DateTime.Now);
             ListBox li = sender as ListView;
             ScrollViewer sv = FindVisualChild<ScrollViewer>(this.lvItems);
 
@@ -114,18 +113,38 @@ namespace DjTool.Views
             double verticalPos = e.GetPosition(li).Y;
             double offset = 3;
 
-            if (verticalPos < tolerance) // Top of visible list?
+            if (verticalPos < tolerance) 
             {
-                sv.LineUp();
-                Thread.Sleep(400);
-//                sv.ScrollToVerticalOffset(sv.VerticalOffset - offset); //Scroll up.
+                ScrollUp(sv);
+ //               sv.ScrollToVerticalOffset(sv.VerticalOffset - offset); //Scroll up.
             }
             else if (verticalPos > li.ActualHeight - tolerance - 20) //Bottom of visible list?
             {
-                sv.LineDown();
-                Thread.Sleep(400);
+                ScrollDown(sv);
 //                sv.ScrollToVerticalOffset(sv.VerticalOffset + offset); //Scroll down.    
             }
+        }
+
+        private DateTime lastScrollDown = DateTime.MinValue;
+        private void ScrollDown(ScrollViewer sv)
+        {
+            if (DateTime.Now - lastScrollDown < TimeSpan.FromMilliseconds(250))
+                return;
+
+            sv.LineDown();
+            lastScrollDown = DateTime.Now;
+
+        }
+
+        private DateTime lastScrollUp = DateTime.MinValue;
+        private void ScrollUp(ScrollViewer sv)
+        {
+            if (DateTime.Now - lastScrollUp < TimeSpan.FromMilliseconds(250))
+                return;
+
+            sv.LineUp();
+            lastScrollUp = DateTime.Now;
+
         }
 
         public static childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
