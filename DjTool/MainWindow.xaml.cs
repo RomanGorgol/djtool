@@ -36,14 +36,14 @@ namespace DjTool
 
             if (dialog.ShowDialog() == true)
             {
-
+                var parser = new FileNameParser();
                 var lists = ((TodoViewModel)this.Lists.DataContext);
 
                 var files = dialog.FileNames;
 
                 foreach (var file in files)
                 {
-                    var item = Parse(file);
+                    var item = parser.ParseFileName(file);
                     if (item.Order.HasValue)
                         lists.CompletedTodoItemListingViewModel.AddTodoItem(item);
                     else
@@ -51,26 +51,6 @@ namespace DjTool
                 }
             }
 
-        }
-
-        private TodoItemViewModel Parse(string filepath)
-        {
-            var filename = System.IO.Path.GetFileName(filepath);
-
-            var match = regex.Match(filename);
-            if (match.Success)
-            {
-                var order = match.Groups["order"].Success
-                    ? (int?)int.Parse(match.Groups["order"].Value)
-                    : null;
-
-                var name = match.Groups["name"].Value;
-                return new TodoItemViewModel(name, filepath, order);
-            }
-            else
-            {
-                return new TodoItemViewModel(filename, filepath, null);
-            }
         }
 
         private void SaveNumbersButton_Click(object sender, RoutedEventArgs e)
