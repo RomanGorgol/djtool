@@ -21,8 +21,8 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Path=Description, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <StackPanel Orientation="Horizontal"  Height="25">
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Path=Description, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                         <!--<ComboBox AllowDrop="False"  Width="100" >
                             <TextBlock>Slow</TextBlock>
                             <TextBlock>S-M</TextBlock>
