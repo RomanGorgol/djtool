@@ -10,27 +10,26 @@
         <ListView
             x:Name="lvItems"
             AllowDrop="True"
-            DragLeave="TodoItemList_DragLeave"
+            ItemsSource="{Binding TodoItemViewModels}"
             DragOver="TodoItemList_DragOver"
-            ItemsSource="{Binding TodoItemViewModels}">
+            DragLeave="TodoItemList_DragLeave"
+            >
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <EventSetter Event="MouseMove" Handler="TodoItem_MouseMove" />
                     <EventSetter Event="DragOver" Handler="TodoItem_DragOver" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal"  Height="25">
-                        <TextBlock VerticalAlignment="Center" Text="{Binding Path=Description, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <!--<ComboBox AllowDrop="False"  Width="100" >
-                            <TextBlock>Slow</TextBlock>
-                            <TextBlock>S-M</TextBlock>
-                            <TextBlock>Middle</TextBlock>
-                            <TextBlock>M-F</TextBlock>
-                            <TextBlock>Fast</TextBlock>
-                        </ComboBox>-->
-                    </StackPanel>
+                    <DockPanel HorizontalAlignment="Stretch" Height="30">
+                        <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Text="{Binding Path=Description, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <ComboBox DockPanel.Dock="Right" MouseMove="ComboBox_MouseMove" SelectionChanged="ComboBox_SelectionChanged" SelectedValue="{Binding Path=Speed}" ItemsSource="{Binding Path=TrackSpeedItems}" AllowDrop="False" HorizontalAlignment="Right" 
+                                  VerticalAlignment="Center" Width="100" Margin="0 0 10 0" Height="25"  SelectedValuePath="Value">
+                            
+                        </ComboBox>
+                    </DockPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

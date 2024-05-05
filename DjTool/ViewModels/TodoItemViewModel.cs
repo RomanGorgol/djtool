@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DjTool.Views;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -16,6 +17,8 @@ namespace DjTool.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public string Description { get; set; }
+
+        public TrackSpeed Speed { get; set; }
 
 
         public TodoItemViewModel(string name, string filePath, int? order)
@@ -36,7 +39,7 @@ namespace DjTool.ViewModels
         public MoveResult AddOrderToPath()
         {
             var directory = System.IO.Path.GetDirectoryName(FilePath);
-            var newFileName = $"{Order:00}. {Name}";
+            var newFileName = FileNameParser.FormatFileName(Name, Order, Speed);
             var newPath = System.IO.Path.Combine(directory, newFileName);
 
             var oldPath = FilePath;
@@ -46,14 +49,43 @@ namespace DjTool.ViewModels
 
         public MoveResult ResetOrder()
         {
+            Order = null;
             var directory = System.IO.Path.GetDirectoryName(FilePath);
-            var newFileName = $"{Name}";
+            var newFileName = FileNameParser.FormatFileName(Name, Order, Speed);
+            
             var newPath = System.IO.Path.Combine(directory, newFileName);
 
-            Order = null;
             var oldPath = FilePath;
             FilePath = newPath;
             return new MoveResult(newPath, oldPath);
+        }
+
+        public MoveResult Rename(string newFileName)
+        {
+            var oldPath = FilePath;
+
+            var directory = System.IO.Path.GetDirectoryName(FilePath);
+            var newPath = System.IO.Path.Combine(directory, newFileName);
+
+            FilePath = newPath;
+
+            return new MoveResult(newPath, oldPath);
+
+        }
+
+        public TrackSpeedSelectItem[] TrackSpeedItems
+        {
+            get
+            {
+                return new TrackSpeedSelectItem[]
+                {
+                    new TrackSpeedSelectItem { Value = TrackSpeed.S, Description = "Slow" },
+                    new TrackSpeedSelectItem { Value = TrackSpeed.SM, Description = "S-M" },
+                    new TrackSpeedSelectItem { Value = TrackSpeed.M, Description = "Middle" },
+                    new TrackSpeedSelectItem { Value = TrackSpeed.MF, Description = "M-F" },
+                    new TrackSpeedSelectItem { Value = TrackSpeed.F, Description = "Fast" }
+                };
+            }
         }
     }
 
@@ -67,5 +99,15 @@ namespace DjTool.ViewModels
             NewPath = newPath;
             OldPath = oldPath;
         }
+    }
+
+    public enum TrackSpeed
+    {
+        None = 0,
+        S,
+        SM,
+        M,
+        MF,
+        F
     }
 }

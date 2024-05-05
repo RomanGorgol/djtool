@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,11 +49,11 @@ namespace DjTool.Views
                     if (dragDropResult == DragDropEffects.None)
                     {
                         AddTodoItem(CurrentItem);
+                        CurrentItem = null;
                     }
                 }
 
-            }else
-                base.OnMouseMove(e);
+            }
         }
 
 
@@ -65,8 +66,9 @@ namespace DjTool.Views
                     TargetItem = item;
                     var insertedItem = e.Data.GetData(DataFormats.Serializable);
 
-                    Insert((TodoItemViewModel)insertedItem, TargetItem);
-//                    TargetItem = null;
+                    if (insertedItem != null)
+                        Insert((TodoItemViewModel)insertedItem, TargetItem);
+                    TargetItem = null;
                 }
             }
         }
@@ -83,7 +85,10 @@ namespace DjTool.Views
         {
             var todoItem = (TodoItemViewModel)e.Data.GetData(DataFormats.Serializable);
 
-            AddTodoItem(todoItem);
+            if (todoItem != null)
+            {
+                AddTodoItem(todoItem);
+            }
 
             CheckScroll(sender, e);
         }
@@ -101,7 +106,8 @@ namespace DjTool.Views
             {
                 var todoItem = (TodoItemViewModel)e.Data.GetData(DataFormats.Serializable);
 
-                (this.lvItems.DataContext as TodoListiViewModel).RemoveTodoItem(todoItem);
+                if (todoItem != null)
+                    (this.lvItems.DataContext as TodoListiViewModel).RemoveTodoItem(todoItem);
 
             }
 
@@ -172,6 +178,40 @@ namespace DjTool.Views
             }
 
             return null;
+        }
+
+        private void ComboBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        public TrackSpeedSelectItem[] GetTrackSpeedItems()
+        {
+            return new TrackSpeedSelectItem[]
+            {
+                new TrackSpeedSelectItem { Value = TrackSpeed.S, Description = "Slow" },
+                new TrackSpeedSelectItem { Value = TrackSpeed.SM, Description = "Slow-Middle" },
+                new TrackSpeedSelectItem { Value = TrackSpeed.M, Description = "Middle" },
+                new TrackSpeedSelectItem { Value = TrackSpeed.MF, Description = "Middle-Fast" },
+                new TrackSpeedSelectItem { Value = TrackSpeed.F, Description = "Fast" }
+            };
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = (ComboBox)sender;
+
+            if (comboBox != null)
+            {
+                var selected = (TrackSpeedSelectItem)comboBox.SelectedItem;
+
+                var item = comboBox.DataContext as TodoItemViewModel;
+
+                var newFileName = FileNameParser.FormatFileName(item.Name, item.Order, selected.Value);
+
+                var result = item.Rename(newFileName);
+                File.Move(result.OldPath, result.NewPath);
+            }
         }
     }
 

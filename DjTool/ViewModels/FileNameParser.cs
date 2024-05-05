@@ -9,7 +9,7 @@ namespace DjTool.ViewModels
 {
     internal class FileNameParser
     {
-        private Regex regex = new Regex(@"^(?<order>\d+).\s+(?<name>.+)$");
+        private Regex regex = new Regex(@"^(?<order>\d+).?\s*(?<speed>(S|(SM)|M|(MF)|F) )?\s*(?<name>.+)$");
 
         public FileNameParser() { }
 
@@ -25,7 +25,15 @@ namespace DjTool.ViewModels
                     : null;
 
                 var name = match.Groups["name"].Value;
-                return new TodoItemViewModel(name, filepath, order);
+
+                var item = new TodoItemViewModel(name, filepath, order);
+
+                if (match.Groups["speed"].Success && Enum.TryParse<TrackSpeed>(match.Groups["speed"].Value.Trim(), out var speed))
+                {
+                    item.Speed = speed;
+                }
+
+                return item;
             }
             else
             {
@@ -33,5 +41,9 @@ namespace DjTool.ViewModels
             }
         }
 
+        public static string FormatFileName(string trackName, int? order, TrackSpeed? speed)
+        {
+            return $"{(order.HasValue ? $"{order:00}. " : "") + (speed != TrackSpeed.None ? speed.ToString() + " " : "")+trackName}";
+        }
     }
 }
