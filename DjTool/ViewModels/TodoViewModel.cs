@@ -15,13 +15,22 @@ namespace DjTool.ViewModels
             CompletedTodoItemListingViewModel = completedTodoItemListingViewModel;
         }
 
-        public void Add(TodoItemViewModel item)
+        public void Add(IEnumerable<TodoItemViewModel> items)
         {
-            if (item.Order.HasValue)
-                CompletedTodoItemListingViewModel.AddTodoItem(item);
-            else
-                InProgressTodoItemListingViewModel.AddTodoItem(item);
+            var itemsWithOrder = new List<TodoItemViewModel>();
 
+            foreach (var item in items)
+            {
+                if (!item.Order.HasValue)
+                    InProgressTodoItemListingViewModel.AddTodoItem(item);
+                else
+                    itemsWithOrder.Add(item);
+            }
+
+            foreach(var item in itemsWithOrder.OrderBy(x=>x.Order.Value))
+            {
+                CompletedTodoItemListingViewModel.AddTodoItem(item);
+            }
         }
     }
 }

@@ -13,6 +13,8 @@ namespace DjTool.ViewModels
 
         public string FilePath { get; set; }
 
+        public int? SavedOrder { get; private set; }
+
         public int? Order { get; private set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -25,14 +27,19 @@ namespace DjTool.ViewModels
         {
             this.Name = name;
             FilePath = filePath;
-            
+
+            SavedOrder = order;
             SetOrder(order);
+        }
+
+        public void ClearOrder() 
+        {
+            SetOrder(null);
         }
 
         public void SetOrder(int? order)
         {
             Order = order;
-//            Description = $"{(order.HasValue ? order.Value + " " : "")} {Name}";
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Description"));
         }
 
@@ -50,12 +57,14 @@ namespace DjTool.ViewModels
 
             var oldPath = FilePath;
             FilePath = newPath;
+            SavedOrder = Order;
             return new MoveResult(newPath, oldPath);
         }
 
         public MoveResult ResetOrder()
         {
             Order = null;
+            SavedOrder = null;
             var directory = System.IO.Path.GetDirectoryName(FilePath);
             var newFileName = FileNameParser.FormatFileName(Name, Order, Speed);
             

@@ -9,7 +9,7 @@ namespace DjTool.ViewModels
 {
     internal class FileNameParser
     {
-        private Regex regex = new Regex(@"^(?<order>\d+).?\s*(?<speed>(S|(SM)|M|(MF)|F) )?\s*(?<name>.+)$");
+        private Regex regex = new Regex(@"^(?<order>\d+)?\.?\s*(?<speed>(S|(SM)|M|(MF)|F) )?\s*(?<name>.+)$");
 
         public FileNameParser() { }
 

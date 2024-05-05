@@ -39,13 +39,9 @@ namespace DjTool
                 var parser = new FileNameParser();
                 var lists = ((TodoViewModel)this.Lists.DataContext);
 
-                var files = dialog.FileNames;
+                var files = dialog.FileNames.Select(file => parser.ParseFileName(file));
 
-                foreach (var file in files)
-                {
-                    var item = parser.ParseFileName(file);
-                    lists.Add(item);
-                }
+                lists.Add(files);
             }
 
         }
@@ -56,8 +52,14 @@ namespace DjTool
 
             try
             {
-
                 foreach (var item in lists.CompletedTodoItemListingViewModel.TodoItemViewModels)
+                {
+                    var result = item.AddOrderToPath();
+
+                    File.Move(result.OldPath, result.NewPath);
+                }
+
+                foreach (var item in lists.InProgressTodoItemListingViewModel.TodoItemViewModels.Where(x=>x.Order != x.SavedOrder && x.Order == null))
                 {
                     var result = item.AddOrderToPath();
 

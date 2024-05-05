@@ -186,18 +186,6 @@ namespace DjTool.Views
             e.Handled = true;
         }
 
-        public TrackSpeedSelectItem[] GetTrackSpeedItems()
-        {
-            return new TrackSpeedSelectItem[]
-            {
-                new TrackSpeedSelectItem { Value = TrackSpeed.S, Description = "Slow" },
-                new TrackSpeedSelectItem { Value = TrackSpeed.SM, Description = "Slow-Middle" },
-                new TrackSpeedSelectItem { Value = TrackSpeed.M, Description = "Middle" },
-                new TrackSpeedSelectItem { Value = TrackSpeed.MF, Description = "Middle-Fast" },
-                new TrackSpeedSelectItem { Value = TrackSpeed.F, Description = "Fast" }
-            };
-        }
-
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = (ComboBox)sender;
@@ -208,7 +196,7 @@ namespace DjTool.Views
 
                 var item = comboBox.DataContext as TodoItemViewModel;
 
-                var newFileName = FileNameParser.FormatFileName(item.Name, item.Order, selected.Value);
+                var newFileName = FileNameParser.FormatFileName(item.Name, item.SavedOrder, selected.Value);
 
                 var result = item.Rename(newFileName);
                 File.Move(result.OldPath, result.NewPath);
@@ -242,7 +230,7 @@ namespace DjTool.Views
                 var item = textBox.DataContext as TodoItemViewModel;
                 item.SetName(textBox.Text);
 
-                var newFileName = FileNameParser.FormatFileName(item.Name, item.Order, item.Speed);
+                var newFileName = FileNameParser.FormatFileName(item.Name, item.SavedOrder, item.Speed);
 
                 var result = item.Rename(newFileName);
                 File.Move(result.OldPath, result.NewPath);

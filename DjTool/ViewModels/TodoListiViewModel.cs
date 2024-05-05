@@ -27,7 +27,7 @@ namespace DjTool.ViewModels
                 if (ordered)
                     item.SetOrder(_todoItemViewModels.Count);
                 else
-                    item.SetOrder(null);
+                    item.ClearOrder();
             }
         }
 
