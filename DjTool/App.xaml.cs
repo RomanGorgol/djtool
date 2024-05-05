@@ -12,7 +12,7 @@ namespace DjTool
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            TodoListiViewModel inProgressTodoItemListingViewModel = new TodoListiViewModel();
+            TodoListiViewModel inProgressTodoItemListingViewModel = new TodoListiViewModel(false);
 
             for (int i = 0; i < 10; i++)
             {
@@ -23,7 +23,7 @@ namespace DjTool
             //inProgressTodoItemListingViewModel.AddTodoItem(new TodoItemViewModel("Walk the dog"));
             //inProgressTodoItemListingViewModel.AddTodoItem(new TodoItemViewModel("Make videos"));
 
-            TodoListiViewModel completedTodoItemListingViewModel = new TodoListiViewModel();
+            TodoListiViewModel completedTodoItemListingViewModel = new TodoListiViewModel(true);
 //            completedTodoItemListingViewModel.AddTodoItem(new TodoItemViewModel("Take a shower"));
  //           completedTodoItemListingViewModel.AddTodoItem(new TodoItemViewModel("Eat breakfast"));
 

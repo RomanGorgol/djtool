@@ -44,10 +44,7 @@ namespace DjTool
                 foreach (var file in files)
                 {
                     var item = parser.ParseFileName(file);
-                    if (item.Order.HasValue)
-                        lists.CompletedTodoItemListingViewModel.AddTodoItem(item);
-                    else
-                        lists.InProgressTodoItemListingViewModel.AddTodoItem(item);
+                    lists.Add(item);
                 }
             }
 

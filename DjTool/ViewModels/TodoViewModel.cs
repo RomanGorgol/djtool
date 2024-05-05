@@ -14,5 +14,14 @@ namespace DjTool.ViewModels
             InProgressTodoItemListingViewModel = inProgressTodoItemListingViewModel;
             CompletedTodoItemListingViewModel = completedTodoItemListingViewModel;
         }
+
+        public void Add(TodoItemViewModel item)
+        {
+            if (item.Order.HasValue)
+                CompletedTodoItemListingViewModel.AddTodoItem(item);
+            else
+                InProgressTodoItemListingViewModel.AddTodoItem(item);
+
+        }
     }
 }
