@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -208,6 +209,40 @@ namespace DjTool.Views
                 var item = comboBox.DataContext as TodoItemViewModel;
 
                 var newFileName = FileNameParser.FormatFileName(item.Name, item.Order, selected.Value);
+
+                var result = item.Rename(newFileName);
+                File.Move(result.OldPath, result.NewPath);
+            }
+        }
+
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && e.ClickCount == 2)
+            {
+                TextBlock? textBlock = sender as TextBlock;
+                DockPanel? dockPanel = textBlock.Parent as DockPanel;
+
+                (dockPanel.FindName("TextBox") as TextBox).Visibility = Visibility.Visible;
+                textBlock.Visibility = Visibility.Collapsed;
+            }
+
+        }
+
+        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                var textBox = sender as TextBox;
+
+                DockPanel? dockPanel = textBox.Parent as DockPanel;
+                textBox.Visibility = Visibility.Collapsed;
+                (dockPanel.FindName("TextBlock") as TextBlock).Visibility = Visibility.Visible;
+
+
+                var item = textBox.DataContext as TodoItemViewModel;
+                item.SetName(textBox.Text);
+
+                var newFileName = FileNameParser.FormatFileName(item.Name, item.Order, item.Speed);
 
                 var result = item.Rename(newFileName);
                 File.Move(result.OldPath, result.NewPath);

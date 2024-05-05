@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Windows.Controls;
 
 namespace DjTool.ViewModels
 {
@@ -16,8 +17,7 @@ namespace DjTool.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string Description { get; set; }
-
+        public string Description => $"{(Order.HasValue ? Order.Value + " " : "")} {Name}";
         public TrackSpeed Speed { get; set; }
 
 
@@ -32,7 +32,13 @@ namespace DjTool.ViewModels
         public void SetOrder(int? order)
         {
             Order = order;
-            Description = $"{(order.HasValue ? order.Value + " " : "")} {Name}";
+//            Description = $"{(order.HasValue ? order.Value + " " : "")} {Name}";
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Description"));
+        }
+
+        public void SetName(string name)
+        {
+            Name = name;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Description"));
         }
 
