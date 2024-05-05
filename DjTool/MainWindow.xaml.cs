@@ -1,4 +1,5 @@
 ﻿using DjTool.ViewModels;
+using log4net;
 using Microsoft.Win32;
 using System.IO;
 using System.Text;
@@ -21,7 +22,7 @@ namespace DjTool
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Regex regex = new Regex(@"^(?<order>\d+).\s+(?<name>.+)$");
+        private static readonly ILog log = LogManager.GetLogger(typeof(App));
 
         public MainWindow()
         {

@@ -38,6 +38,7 @@ namespace DjTool.Views
             if (e.LeftButton == MouseButtonState.Pressed &&
                 sender is FrameworkElement frameworkElement)
             {
+                throw new Exception();
                 DataObject data = new DataObject();
 
                 var item = this.lvItems.SelectedItem;
@@ -114,8 +115,6 @@ namespace DjTool.Views
 
         }
 
-        
-
         private void CheckScroll(object sender, System.Windows.DragEventArgs e)
         {
             ListBox li = sender as ListView;
@@ -161,7 +160,6 @@ namespace DjTool.Views
 
         public static childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
         {
-            // Search immediate children first (breadth-first)
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {
                 DependencyObject child = VisualTreeHelper.GetChild(obj, i);
