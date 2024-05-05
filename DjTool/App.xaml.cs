@@ -1,6 +1,7 @@
 ﻿using DjTool.ViewModels;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Windows;
 
 namespace DjTool
@@ -12,22 +13,14 @@ namespace DjTool
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            TodoListiViewModel inProgressTodoItemListingViewModel = new TodoListiViewModel(false);
 
-            for (int i = 0; i < 10; i++)
-            {
-          //      inProgressTodoItemListingViewModel.AddTodoItem(new TodoItemViewModel("item "+i));
+            Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
 
-            }
-            //inProgressTodoItemListingViewModel.AddTodoItem(new TodoItemViewModel("Go jogging"));
-            //inProgressTodoItemListingViewModel.AddTodoItem(new TodoItemViewModel("Walk the dog"));
-            //inProgressTodoItemListingViewModel.AddTodoItem(new TodoItemViewModel("Make videos"));
-
-            TodoListiViewModel completedTodoItemListingViewModel = new TodoListiViewModel(true);
-//            completedTodoItemListingViewModel.AddTodoItem(new TodoItemViewModel("Take a shower"));
- //           completedTodoItemListingViewModel.AddTodoItem(new TodoItemViewModel("Eat breakfast"));
+            var inProgressTodoItemListingViewModel = new TodoListiViewModel(false);
+            var completedTodoItemListingViewModel = new TodoListiViewModel(true);
 
             TodoViewModel todoViewModel = new TodoViewModel(inProgressTodoItemListingViewModel, completedTodoItemListingViewModel);
+
 
             MainWindow = new MainWindow()
             {
@@ -37,6 +30,12 @@ namespace DjTool
 
             base.OnStartup(e);
 
+        }
+
+        private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("error");
+            throw new NotImplementedException();
         }
     }
 
