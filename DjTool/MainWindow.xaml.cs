@@ -41,7 +41,7 @@ namespace DjTool
             if (dialog.ShowDialog() == true)
             {
                 var parser = new FileNameParser();
-                var lists = ((TodoViewModel)this.Lists.DataContext);
+                var lists = ((PlaylistsViewModel)this.Lists.DataContext);
 
                 var files = dialog.FileNames.Select(file => parser.ParseFileName(file));
 
@@ -52,9 +52,9 @@ namespace DjTool
 
         private void SaveNumbersButton_Click(object sender, RoutedEventArgs e)
         {
-            var lists = ((TodoViewModel)this.Lists.DataContext);
+            var lists = ((PlaylistsViewModel)this.Lists.DataContext);
 
-            foreach (var item in lists.CompletedTodoItemListingViewModel.TodoItemViewModels)
+            foreach (var item in lists.CompletedTrackListViewModel.TrackViewModels)
             {
                 log.Info($"save order number [{item.Name}]");
                 item.SavedOrder = item.Order;
@@ -63,7 +63,7 @@ namespace DjTool
             }
 
             log.Info("rename track with order == null");
-            foreach (var item in lists.InProgressTodoItemListingViewModel.TodoItemViewModels.Where(x => x.Order != x.SavedOrder && x.Order == null))
+            foreach (var item in lists.InProgressTrackListViewModel.TrackViewModels.Where(x => x.Order != x.SavedOrder && x.Order == null))
             {
                 log.Info($"save order number [{item.Name}]");
                 item.SavedOrder = item.Order;
@@ -75,13 +75,13 @@ namespace DjTool
 
         private void ClearNumbersButton_Click(object sender, RoutedEventArgs e)
         {
-            var lists = ((TodoViewModel)this.Lists.DataContext);
+            var lists = ((PlaylistsViewModel)this.Lists.DataContext);
 
-            var sortedList = lists.CompletedTodoItemListingViewModel;
+            var sortedList = lists.CompletedTrackListViewModel;
 
-            while (sortedList.TodoItemViewModels.Any())
+            while (sortedList.TrackViewModels.Any())
             {
-                var item = sortedList.TodoItemViewModels.First();
+                var item = sortedList.TrackViewModels.First();
 
                 log.Info($"reset order [{item.Name}]");
 
@@ -89,7 +89,7 @@ namespace DjTool
                 renamer.RenameTrack(item);
 
                 sortedList.RemoveTodoItem(item);
-                lists.InProgressTodoItemListingViewModel.AddTodoItem(item);
+                lists.InProgressTrackListViewModel.AddTodoItem(item);
             }
             
             MessageBox.Show("Файлы переименованы");

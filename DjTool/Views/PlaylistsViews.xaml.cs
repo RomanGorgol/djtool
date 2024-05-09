@@ -15,12 +15,10 @@ using System.Windows.Shapes;
 
 namespace DjTool.Views
 {
-    /// <summary>
-    /// Interaction logic for TodoView.xaml
-    /// </summary>
-    public partial class TodoView : UserControl
+
+    public partial class PlaylistsView : UserControl
     {
-        public TodoView()
+        public PlaylistsView()
         {
             InitializeComponent();
         }

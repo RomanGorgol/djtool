@@ -20,7 +20,7 @@ namespace DjTool.Tools
             this.log = log;
         }
 
-        public void RenameTrack(TodoItemViewModel track, Action<TodoItemViewModel>? afterRename = null)
+        public void RenameTrack(TrackViewModel track, Action<TrackViewModel>? afterRename = null)
         {
             var directory = Path.GetDirectoryName(track.FilePath);
             var newFileName = FileNameParser.FormatFileName(track.Name, track.SavedOrder, track.Speed);

@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace DjTool.ViewModels
 {
-    public class TodoItemViewModel : INotifyPropertyChanged
+    public class TrackViewModel : INotifyPropertyChanged
     {
         public string Name { get; private set; }
 
@@ -23,7 +23,7 @@ namespace DjTool.ViewModels
         public TrackSpeed Speed { get; set; }
 
 
-        public TodoItemViewModel(string name, string filePath, int? order)
+        public TrackViewModel(string name, string filePath, int? order)
         {
             this.Name = name;
             FilePath = filePath;
@@ -53,6 +53,21 @@ namespace DjTool.ViewModels
         {
             Order = null;
             SavedOrder = null;
+        }
+
+        public TrackSpeedSelectItem[] TrackSpeedItems
+        {
+            get
+            {
+                return new TrackSpeedSelectItem[]
+                {
+                    new TrackSpeedSelectItem { Value = TrackSpeed.S, Description = "Slow" },
+                    new TrackSpeedSelectItem { Value = TrackSpeed.SM, Description = "S-M" },
+                    new TrackSpeedSelectItem { Value = TrackSpeed.M, Description = "Middle" },
+                    new TrackSpeedSelectItem { Value = TrackSpeed.MF, Description = "M-F" },
+                    new TrackSpeedSelectItem { Value = TrackSpeed.F, Description = "Fast" }
+                };
+            }
         }
 
     }

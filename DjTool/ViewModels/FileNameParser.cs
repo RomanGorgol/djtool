@@ -13,7 +13,7 @@ namespace DjTool.ViewModels
 
         public FileNameParser() { }
 
-        public TodoItemViewModel ParseFileName(string filepath)
+        public TrackViewModel ParseFileName(string filepath)
         {
             var filename = System.IO.Path.GetFileName(filepath);
 
@@ -26,7 +26,7 @@ namespace DjTool.ViewModels
 
                 var name = match.Groups["name"].Value;
 
-                var item = new TodoItemViewModel(name, filepath, order);
+                var item = new TrackViewModel(name, filepath, order);
 
                 if (match.Groups["speed"].Success && Enum.TryParse<TrackSpeed>(match.Groups["speed"].Value.Trim(), out var speed))
                 {
@@ -37,7 +37,7 @@ namespace DjTool.ViewModels
             }
             else
             {
-                return new TodoItemViewModel(filename, filepath, null);
+                return new TrackViewModel(filename, filepath, null);
             }
         }
 

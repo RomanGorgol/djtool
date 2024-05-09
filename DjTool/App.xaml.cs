@@ -24,10 +24,10 @@ namespace DjTool
 
             Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
 
-            var inProgressTodoItemListingViewModel = new TodoListiViewModel(false);
-            var completedTodoItemListingViewModel = new TodoListiViewModel(true);
+            var inProgressTrackListViewModel = new TrackListViewModel(false);
+            var completedTrackListViewModel = new TrackListViewModel(true);
 
-            TodoViewModel todoViewModel = new TodoViewModel(log, inProgressTodoItemListingViewModel, completedTodoItemListingViewModel);
+            PlaylistsViewModel todoViewModel = new PlaylistsViewModel(log, inProgressTrackListViewModel, completedTrackListViewModel);
 
 
             MainWindow = new MainWindow()

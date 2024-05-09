@@ -24,20 +24,20 @@ namespace DjTool.Views
     /// <summary>
     /// Interaction logic for TodoItemListingView.xaml
     /// </summary>
-    public partial class TodoItemListingView : UserControl
+    public partial class TrackListView : UserControl
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(TodoItemListingView));
+        private static readonly ILog log = LogManager.GetLogger(typeof(TrackListView));
         private TrackRenamer renamer;
 
 
-        public TodoItemListingView()
+        public TrackListView()
         {
             InitializeComponent();
             renamer = new TrackRenamer(log);
         }
 
-        private TodoItemViewModel CurrentItem = null;
-        private TodoItemViewModel TargetItem = null;
+        private TrackViewModel CurrentItem = null;
+        private TrackViewModel TargetItem = null;
 
         private void TodoItem_MouseMove(object sender, MouseEventArgs e)
         {
@@ -47,7 +47,7 @@ namespace DjTool.Views
                 DataObject data = new DataObject();
 
                 var item = this.lvItems.SelectedItem;
-                CurrentItem = (TodoItemViewModel)item;
+                CurrentItem = (TrackViewModel)item;
 
                 if (CurrentItem != null)
                 {
@@ -68,21 +68,21 @@ namespace DjTool.Views
         {
             if (sender is FrameworkElement element)
             {
-                if (element.DataContext is TodoItemViewModel item)
+                if (element.DataContext is TrackViewModel item)
                 {
                     TargetItem = item;
                     var insertedItem = e.Data.GetData(DataFormats.Serializable);
 
                     if (insertedItem != null)
-                        Insert((TodoItemViewModel)insertedItem, TargetItem);
+                        Insert((TrackViewModel)insertedItem, TargetItem);
                     TargetItem = null;
                 }
             }
         }
 
-        private void Insert(TodoItemViewModel current, TodoItemViewModel target)
+        private void Insert(TrackViewModel current, TrackViewModel target)
         {
-            var list = (TodoListiViewModel)this.lvItems.DataContext;
+            var list = (TrackListViewModel)this.lvItems.DataContext;
 
 
             list.InsertTodoItem(current, target);
@@ -90,7 +90,7 @@ namespace DjTool.Views
 
         private void TodoItemList_DragOver(object sender, DragEventArgs e)
         {
-            var todoItem = (TodoItemViewModel)e.Data.GetData(DataFormats.Serializable);
+            var todoItem = (TrackViewModel)e.Data.GetData(DataFormats.Serializable);
 
             if (todoItem != null)
             {
@@ -100,9 +100,9 @@ namespace DjTool.Views
             CheckScroll(sender, e);
         }
 
-        private void AddTodoItem(TodoItemViewModel todoItem)
+        private void AddTodoItem(TrackViewModel todoItem)
         {
-            (this.lvItems.DataContext as TodoListiViewModel).AddTodoItem(todoItem);
+            (this.lvItems.DataContext as TrackListViewModel).AddTodoItem(todoItem);
         }
 
         private void TodoItemList_DragLeave(object sender, DragEventArgs e)
@@ -111,10 +111,10 @@ namespace DjTool.Views
 
             if (result == null)
             {
-                var todoItem = (TodoItemViewModel)e.Data.GetData(DataFormats.Serializable);
+                var todoItem = (TrackViewModel)e.Data.GetData(DataFormats.Serializable);
 
                 if (todoItem != null)
-                    (this.lvItems.DataContext as TodoListiViewModel).RemoveTodoItem(todoItem);
+                    (this.lvItems.DataContext as TrackListViewModel).RemoveTodoItem(todoItem);
 
             }
 
@@ -197,7 +197,7 @@ namespace DjTool.Views
             {
                 var selected = (TrackSpeedSelectItem)comboBox.SelectedItem;
 
-                var item = comboBox.DataContext as TodoItemViewModel;
+                var item = comboBox.DataContext as TrackViewModel;
 
                 log.Info($"change speed [{item.Name}] [{item.Speed}]");
 
@@ -229,7 +229,7 @@ namespace DjTool.Views
                 (dockPanel.FindName("TextBlock") as TextBlock).Visibility = Visibility.Visible;
 
 
-                var item = textBox.DataContext as TodoItemViewModel;
+                var item = textBox.DataContext as TrackViewModel;
 
                 log.Info($"change name [{item.Name}] -> [{textBox.Text}]");
                 item.SetName(textBox.Text);
