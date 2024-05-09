@@ -43,7 +43,7 @@ namespace DjTool.ViewModels
 
         public static string FormatFileName(string trackName, int? order, TrackSpeed? speed)
         {
-            return $"{(order.HasValue ? $"{order:00}. " : "") + (speed != TrackSpeed.None ? speed.ToString() + " " : "")+trackName}";
+            return $"{(order.HasValue ? $"{order:00}. " : "") + (speed != TrackSpeed.None ? speed.ToString() + " " : "") + trackName}";
         }
     }
 }

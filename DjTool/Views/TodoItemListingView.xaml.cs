@@ -1,4 +1,6 @@
-﻿using DjTool.ViewModels;
+﻿using DjTool.Tools;
+using DjTool.ViewModels;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,10 +26,14 @@ namespace DjTool.Views
     /// </summary>
     public partial class TodoItemListingView : UserControl
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(TodoItemListingView));
+        private TrackRenamer renamer;
+
 
         public TodoItemListingView()
         {
             InitializeComponent();
+            renamer = new TrackRenamer(log);
         }
 
         private TodoItemViewModel CurrentItem = null;
@@ -38,13 +44,12 @@ namespace DjTool.Views
             if (e.LeftButton == MouseButtonState.Pressed &&
                 sender is FrameworkElement frameworkElement)
             {
-                throw new Exception();
                 DataObject data = new DataObject();
 
                 var item = this.lvItems.SelectedItem;
                 CurrentItem = (TodoItemViewModel)item;
-                
-                if (CurrentItem != null) 
+
+                if (CurrentItem != null)
                 {
                     DragDropEffects dragDropResult = DragDrop.DoDragDrop(frameworkElement, new DataObject(DataFormats.Serializable, item), DragDropEffects.Move);
 
@@ -124,15 +129,15 @@ namespace DjTool.Views
             double verticalPos = e.GetPosition(li).Y;
             double offset = 3;
 
-            if (verticalPos < tolerance) 
+            if (verticalPos < tolerance)
             {
                 ScrollUp(sv);
- //               sv.ScrollToVerticalOffset(sv.VerticalOffset - offset); //Scroll up.
+                //               sv.ScrollToVerticalOffset(sv.VerticalOffset - offset); //Scroll up.
             }
             else if (verticalPos > li.ActualHeight - tolerance - 20) //Bottom of visible list?
             {
                 ScrollDown(sv);
-//                sv.ScrollToVerticalOffset(sv.VerticalOffset + offset); //Scroll down.    
+                //                sv.ScrollToVerticalOffset(sv.VerticalOffset + offset); //Scroll down.    
             }
         }
 
@@ -194,10 +199,9 @@ namespace DjTool.Views
 
                 var item = comboBox.DataContext as TodoItemViewModel;
 
-                var newFileName = FileNameParser.FormatFileName(item.Name, item.SavedOrder, selected.Value);
+                log.Info($"change speed [{item.Name}] [{item.Speed}]");
 
-                var result = item.Rename(newFileName);
-                File.Move(result.OldPath, result.NewPath);
+                renamer.RenameTrack(item);
             }
         }
 
@@ -226,12 +230,11 @@ namespace DjTool.Views
 
 
                 var item = textBox.DataContext as TodoItemViewModel;
+
+                log.Info($"change name [{item.Name}] -> [{textBox.Text}]");
                 item.SetName(textBox.Text);
 
-                var newFileName = FileNameParser.FormatFileName(item.Name, item.SavedOrder, item.Speed);
-
-                var result = item.Rename(newFileName);
-                File.Move(result.OldPath, result.NewPath);
+                renamer.RenameTrack(item);
             }
         }
     }

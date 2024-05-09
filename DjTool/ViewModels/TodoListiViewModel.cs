@@ -21,7 +21,7 @@ namespace DjTool.ViewModels
 
         public void AddTodoItem(TodoItemViewModel item)
         {
-            if(!_todoItemViewModels.Contains(item))
+            if (!_todoItemViewModels.Contains(item))
             {
                 _todoItemViewModels.Add(item);
                 if (ordered)
@@ -33,7 +33,7 @@ namespace DjTool.ViewModels
 
         public void InsertTodoItem(TodoItemViewModel insertedTodoItem, TodoItemViewModel targetTodoItem)
         {
-            if(insertedTodoItem == targetTodoItem)
+            if (insertedTodoItem == targetTodoItem)
             {
                 return;
             }
@@ -41,7 +41,7 @@ namespace DjTool.ViewModels
             int oldIndex = _todoItemViewModels.IndexOf(insertedTodoItem);
             int nextIndex = _todoItemViewModels.IndexOf(targetTodoItem);
 
-            if(oldIndex != -1 && nextIndex != -1)   
+            if (oldIndex != -1 && nextIndex != -1)
             {
                 if (ordered)
                 {
@@ -49,7 +49,7 @@ namespace DjTool.ViewModels
                     targetTodoItem.SetOrder(oldIndex + 1);
                 }
 
-                _todoItemViewModels.Move(oldIndex, nextIndex);            
+                _todoItemViewModels.Move(oldIndex, nextIndex);
             }
         }
 

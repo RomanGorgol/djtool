@@ -13,7 +13,7 @@ namespace DjTool.ViewModels
 
         public string FilePath { get; set; }
 
-        public int? SavedOrder { get; private set; }
+        public int? SavedOrder { get; set; }
 
         public int? Order { get; private set; }
 
@@ -32,7 +32,7 @@ namespace DjTool.ViewModels
             SetOrder(order);
         }
 
-        public void ClearOrder() 
+        public void ClearOrder()
         {
             SetOrder(null);
         }
@@ -49,62 +49,15 @@ namespace DjTool.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Description"));
         }
 
-        public MoveResult AddOrderToPath()
-        {
-            var directory = System.IO.Path.GetDirectoryName(FilePath);
-            var newFileName = FileNameParser.FormatFileName(Name, Order, Speed);
-            var newPath = System.IO.Path.Combine(directory, newFileName);
-
-            var oldPath = FilePath;
-            FilePath = newPath;
-            SavedOrder = Order;
-            return new MoveResult(newPath, oldPath);
-        }
-
-        public MoveResult ResetOrder()
+        public void ResetOrder()
         {
             Order = null;
             SavedOrder = null;
-            var directory = System.IO.Path.GetDirectoryName(FilePath);
-            var newFileName = FileNameParser.FormatFileName(Name, Order, Speed);
-            
-            var newPath = System.IO.Path.Combine(directory, newFileName);
-
-            var oldPath = FilePath;
-            FilePath = newPath;
-            return new MoveResult(newPath, oldPath);
         }
 
-        public MoveResult Rename(string newFileName)
-        {
-            var oldPath = FilePath;
-
-            var directory = System.IO.Path.GetDirectoryName(FilePath);
-            var newPath = System.IO.Path.Combine(directory, newFileName);
-
-            FilePath = newPath;
-
-            return new MoveResult(newPath, oldPath);
-
-        }
-
-        public TrackSpeedSelectItem[] TrackSpeedItems
-        {
-            get
-            {
-                return new TrackSpeedSelectItem[]
-                {
-                    new TrackSpeedSelectItem { Value = TrackSpeed.S, Description = "Slow" },
-                    new TrackSpeedSelectItem { Value = TrackSpeed.SM, Description = "S-M" },
-                    new TrackSpeedSelectItem { Value = TrackSpeed.M, Description = "Middle" },
-                    new TrackSpeedSelectItem { Value = TrackSpeed.MF, Description = "M-F" },
-                    new TrackSpeedSelectItem { Value = TrackSpeed.F, Description = "Fast" }
-                };
-            }
-        }
     }
 
-    public  class MoveResult
+    public class MoveResult
     {
         public string OldPath { get; private set; }
         public string NewPath { get; private set; }

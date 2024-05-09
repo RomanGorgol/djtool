@@ -1,4 +1,5 @@
-﻿using DjTool.ViewModels;
+﻿using DjTool.Tools;
+using DjTool.ViewModels;
 using log4net;
 using Microsoft.Win32;
 using System.IO;
@@ -22,10 +23,12 @@ namespace DjTool
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(App));
+        private static readonly ILog log = LogManager.GetLogger(typeof(MainWindow));
+        private TrackRenamer renamer;
 
         public MainWindow()
         {
+            renamer = new TrackRenamer(log);
             InitializeComponent();
         }
 
@@ -51,26 +54,22 @@ namespace DjTool
         {
             var lists = ((TodoViewModel)this.Lists.DataContext);
 
-            try
+            foreach (var item in lists.CompletedTodoItemListingViewModel.TodoItemViewModels)
             {
-                foreach (var item in lists.CompletedTodoItemListingViewModel.TodoItemViewModels)
-                {
-                    var result = item.AddOrderToPath();
+                log.Info($"save order number [{item.Name}]");
+                item.SavedOrder = item.Order;
+                renamer.RenameTrack(item);
 
-                    File.Move(result.OldPath, result.NewPath);
-                }
-
-                foreach (var item in lists.InProgressTodoItemListingViewModel.TodoItemViewModels.Where(x=>x.Order != x.SavedOrder && x.Order == null))
-                {
-                    var result = item.AddOrderToPath();
-
-                    File.Move(result.OldPath, result.NewPath);
-                }
             }
-            catch (Exception ex)
+
+            log.Info("rename track with order == null");
+            foreach (var item in lists.InProgressTodoItemListingViewModel.TodoItemViewModels.Where(x => x.Order != x.SavedOrder && x.Order == null))
             {
-                MessageBox.Show(ex.Message);
+                log.Info($"save order number [{item.Name}]");
+                item.SavedOrder = item.Order;
+                renamer.RenameTrack(item);
             }
+
             MessageBox.Show("Файлы переименованы");
         }
 
@@ -78,24 +77,21 @@ namespace DjTool
         {
             var lists = ((TodoViewModel)this.Lists.DataContext);
 
-            try
-            {
-                var sortedList = lists.CompletedTodoItemListingViewModel;
+            var sortedList = lists.CompletedTodoItemListingViewModel;
 
-                while(sortedList.TodoItemViewModels.Any())
-                {
-                    var item = sortedList.TodoItemViewModels.First();
-                    var result = item.ResetOrder();
-                    File.Move(result.OldPath, result.NewPath);
-
-                    sortedList.RemoveTodoItem(item);
-                    lists.InProgressTodoItemListingViewModel.AddTodoItem(item);
-                }
-            }
-            catch (Exception ex)
+            while (sortedList.TodoItemViewModels.Any())
             {
-                MessageBox.Show(ex.Message);
+                var item = sortedList.TodoItemViewModels.First();
+
+                log.Info($"reset order [{item.Name}]");
+
+                item.ResetOrder();
+                renamer.RenameTrack(item);
+
+                sortedList.RemoveTodoItem(item);
+                lists.InProgressTodoItemListingViewModel.AddTodoItem(item);
             }
+            
             MessageBox.Show("Файлы переименованы");
         }
     }

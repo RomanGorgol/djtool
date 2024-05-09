@@ -19,7 +19,7 @@ namespace DjTool
         protected override void OnStartup(StartupEventArgs e)
         {
 
-           
+
             XmlConfigurator.Configure(new FileInfo("logconfig.xml"));
 
             Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
@@ -27,7 +27,7 @@ namespace DjTool
             var inProgressTodoItemListingViewModel = new TodoListiViewModel(false);
             var completedTodoItemListingViewModel = new TodoListiViewModel(true);
 
-            TodoViewModel todoViewModel = new TodoViewModel(inProgressTodoItemListingViewModel, completedTodoItemListingViewModel);
+            TodoViewModel todoViewModel = new TodoViewModel(log, inProgressTodoItemListingViewModel, completedTodoItemListingViewModel);
 
 
             MainWindow = new MainWindow()
@@ -45,8 +45,8 @@ namespace DjTool
         private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfile.log");
-            MessageBox.Show("Упс! Что-то пошло не так. Отправь разработчику файл с логами, и он посмотрит, что случилось "+ logPath, 
-                "Ошибка", MessageBoxButton.OK, 
+            MessageBox.Show("Упс! Что-то пошло не так. Отправь разработчику файл с логами, и он посмотрит, что случилось " + logPath,
+                "Ошибка", MessageBoxButton.OK,
                 MessageBoxImage.Error
                 );
             log.Error(e.Exception);
