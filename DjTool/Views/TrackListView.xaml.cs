@@ -222,21 +222,30 @@ namespace DjTool.Views
         {
             if (e.Key == Key.Return)
             {
-                var textBox = sender as TextBox;
-
-                DockPanel? dockPanel = textBox.Parent as DockPanel;
-                textBox.Visibility = Visibility.Collapsed;
-                (dockPanel.FindName("TextBlock") as TextBlock).Visibility = Visibility.Visible;
-
-
-                var item = textBox.DataContext as TrackViewModel;
-
-                log.Info($"change name [{item.Name}] -> [{textBox.Text}]");
-                item.SetName(textBox.Text);
-
-                renamer.RenameTrack(item);
+                SaveTrackName(sender as TextBox);
             }
         }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            SaveTrackName(sender as TextBox);
+        }
+
+        private void SaveTrackName(TextBox textBox) 
+        {
+            DockPanel? dockPanel = textBox.Parent as DockPanel;
+            textBox.Visibility = Visibility.Collapsed;
+            (dockPanel.FindName("TextBlock") as TextBlock).Visibility = Visibility.Visible;
+
+
+            var item = textBox.DataContext as TrackViewModel;
+
+            log.Info($"change name [{item.Name}] -> [{textBox.Text}]");
+            item.SetName(textBox.Text);
+
+            renamer.RenameTrack(item);
+        }
+
     }
 
 }

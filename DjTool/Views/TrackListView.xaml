@@ -31,7 +31,9 @@
                                  VerticalAlignment="Center" 
                                  Text="{Binding Path=Name, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                                  MouseMove="ComboBox_MouseMove"
-                                 KeyDown="TextBox_KeyDown" />
+                                 KeyDown="TextBox_KeyDown"
+                                 LostFocus="TextBox_LostFocus"
+                                 Height="22" />
                         <ComboBox DockPanel.Dock="Right" MouseMove="ComboBox_MouseMove" 
                                   SelectionChanged="ComboBox_SelectionChanged" SelectedValue="{Binding Path=Speed}" ItemsSource="{Binding Path=TrackSpeedItems}" AllowDrop="False" HorizontalAlignment="Right" 
                                   VerticalAlignment="Center" Width="100" Margin="0 0 10 0" Height="25"  SelectedValuePath="Value">
