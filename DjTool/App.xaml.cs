@@ -15,6 +15,8 @@ namespace DjTool
     public partial class App : Application
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(App));
+        private TrackListViewModel inProgressTrackListViewModel;
+        private TrackListViewModel completedTrackListViewModel;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -24,8 +26,8 @@ namespace DjTool
 
             Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
 
-            var inProgressTrackListViewModel = new TrackListViewModel(false);
-            var completedTrackListViewModel = new TrackListViewModel(true);
+            inProgressTrackListViewModel = new TrackListViewModel(false);
+            completedTrackListViewModel = new TrackListViewModel(true);
 
             PlaylistsViewModel todoViewModel = new PlaylistsViewModel(log, inProgressTrackListViewModel, completedTrackListViewModel);
 
@@ -38,9 +40,28 @@ namespace DjTool
 
             log.Info("start");
 
+            this.MainWindow.Closing += MainWindow_Closing;
+                         
+
             base.OnStartup(e);
 
         }
+
+        private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (inProgressTrackListViewModel.TrackViewModels.Any(x=>x.Order!= x.SavedOrder)
+                || completedTrackListViewModel.TrackViewModels.Any(x=>x.Order != x.SavedOrder))
+            {
+                var result = MessageBox.Show("Есть треки, у которых изменился порядковый номер, но номера не сохранены. Точно закрыть без сохранения?", "Есть несохраненные изменения", MessageBoxButton.YesNo);
+
+                if (result == MessageBoxResult.No)
+                {   
+                    e.Cancel = true;
+                }
+            }
+
+        }
+
 
         private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
