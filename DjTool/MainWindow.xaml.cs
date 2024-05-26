@@ -68,9 +68,9 @@ namespace DjTool
                 log.Info($"save order number [{item.Name}]");
                 item.SavedOrder = item.Order;
                 //renamer.RenameTrack(item);
-                if (!string.IsNullOrEmpty(item.SourceFilePath))
+                if (!string.IsNullOrEmpty(item.OutputFilePath))
                 {
-                    File.Delete(item.SourceFilePath);
+                    File.Delete(item.OutputFilePath);
                     item.SourceFilePath = null;
                 }
             }
