@@ -22,20 +22,41 @@ namespace DjTool.Tools
 
         public void RenameTrack(TrackViewModel track, Action<TrackViewModel>? afterRename = null)
         {
-            var directory = Path.GetDirectoryName(track.FilePath);
+            var sourceDirectory = Path.GetDirectoryName(track.SourceFilePath);
             var newFileName = FileNameParser.FormatFileName(track.Name, track.SavedOrder, track.Speed);
 
-            var newPath = Path.Combine(directory, newFileName);
+            var newPath = Path.Combine(sourceDirectory, newFileName);
 
-            var oldPath = track.FilePath;
+            var oldPath = track.SourceFilePath;
 
             log.Info($"rename [{oldPath}] -> [{newPath}]");
-            track.FilePath = newPath;
+            track.SourceFilePath = newPath;
             
             File.Move(oldPath, newPath);
 
             afterRename?.Invoke(track);
 
+        }
+
+        public void SaveOrderNumber(string directory, TrackViewModel track)
+        {
+            var newFileName = FileNameParser.FormatFileName(track.Name, track.Order, track.Speed);
+
+            var newPath = Path.Combine(directory, newFileName);
+
+            if (string.IsNullOrEmpty(track.OutputFilePath))
+            {
+                File.Copy(track.SourceFilePath, newPath);
+                log.Info($"copy track to output [{track.SourceFilePath}] -> [{newPath}]");
+            }
+            else
+            {
+                File.Move(track.OutputFilePath, newPath);
+                log.Info($"copy track to output [{track.SourceFilePath}] -> [{newPath}]");
+            }
+
+            track.OutputFilePath = newPath;
+            track.SavedOrder = track.Order;
         }
     }
 }

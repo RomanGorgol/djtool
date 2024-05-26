@@ -25,7 +25,7 @@ namespace DjTool.ViewModels
 
             foreach (var item in items)
             {
-                log.Info($"add track[{item.Name}] [{item.Speed}] [{item.SavedOrder}] [{item.FilePath}]");
+                log.Info($"add track[{item.Name}] [{item.Speed}] [{item.SavedOrder}] [{item.SourceFilePath}]");
 
                 if (!item.Order.HasValue)
                     InProgressTrackListViewModel.AddTodoItem(item);

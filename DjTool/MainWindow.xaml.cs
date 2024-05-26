@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using MessageBox = System.Windows.MessageBox;
 
 namespace DjTool
 {
@@ -25,6 +26,7 @@ namespace DjTool
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(MainWindow));
         private TrackRenamer renamer;
+        private string outputDirectory;
 
         public MainWindow()
         {
@@ -57,9 +59,7 @@ namespace DjTool
             foreach (var item in lists.CompletedTrackListViewModel.TrackViewModels)
             {
                 log.Info($"save order number [{item.Name}]");
-                item.SavedOrder = item.Order;
-                renamer.RenameTrack(item);
-
+                renamer.SaveOrderNumber(outputDirectory, item);
             }
 
             log.Info("rename track with order == null");
@@ -67,7 +67,12 @@ namespace DjTool
             {
                 log.Info($"save order number [{item.Name}]");
                 item.SavedOrder = item.Order;
-                renamer.RenameTrack(item);
+                //renamer.RenameTrack(item);
+                if (!string.IsNullOrEmpty(item.SourceFilePath))
+                {
+                    File.Delete(item.SourceFilePath);
+                    item.SourceFilePath = null;
+                }
             }
 
             MessageBox.Show("Файлы переименованы");
@@ -93,6 +98,18 @@ namespace DjTool
             }
             
             MessageBox.Show("Файлы переименованы");
+        }
+
+        private void SelectOutputFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectFolderDialog = new Microsoft.Win32.OpenFolderDialog();
+            var result = selectFolderDialog.ShowDialog();
+
+            if (result == true)
+            {
+                MessageBox.Show(selectFolderDialog.FolderName);
+                outputDirectory = selectFolderDialog.FolderName;
+            }
         }
     }
 }

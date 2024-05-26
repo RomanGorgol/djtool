@@ -11,7 +11,9 @@ namespace DjTool.ViewModels
     {
         public string Name { get; private set; }
 
-        public string FilePath { get; set; }
+        public string SourceFilePath { get; set; }
+
+        public string OutputFilePath { get; set; }
 
         public int? SavedOrder { get; set; }
 
@@ -26,7 +28,7 @@ namespace DjTool.ViewModels
         public TrackViewModel(string name, string filePath, int? order)
         {
             this.Name = name;
-            FilePath = filePath;
+            SourceFilePath = filePath;
 
             SavedOrder = order;
             SetOrder(order);
