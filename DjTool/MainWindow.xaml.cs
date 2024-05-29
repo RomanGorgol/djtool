@@ -56,11 +56,18 @@ namespace DjTool
         {
             var lists = ((PlaylistsViewModel)this.Lists.DataContext);
 
+
             foreach (var item in lists.CompletedTrackListViewModel.TrackViewModels)
             {
                 log.Info($"save order number [{item.Name}]");
                 item.SavedOrder = item.Order;
                 renamer.RenameTrack(item);
+                if (!string.IsNullOrEmpty(outputDirectory))
+                {
+                    var fileName = System.IO.Path.GetFileName(item.FilePath);
+                    var outputFilePath = System.IO.Path.Combine(outputDirectory, fileName);
+                    File.Copy(item.FilePath, outputFilePath, false);
+                }
 
             }
 
