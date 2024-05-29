@@ -16,6 +16,8 @@
             <Button Grid.Row="0" x:Name="SelectFilesButton" Width="100" Margin="20 10 0 0 " Click="SelectFilesButton_Click" >Выбрать файлы</Button>
             <Button Grid.Row="0" x:Name="SaveNumbersButton" Width="120" Margin="20 10 0 0 " Click="SaveNumbersButton_Click" >Сохранить номера</Button>
             <Button Grid.Row="0" x:Name="ClearNumbersButton" Width="120" Margin="20 10 0 0 " Click="ClearNumbersButton_Click"  >Очистить номера</Button>
+            <Button Grid.Row="0" x:Name="SelectOutputFolderButton" Padding="20 0 " Margin="20 10 0 0 " Click="SelectOutputFolderButton_Click"  >Выбрать папку для сохранения результата</Button>
+            <TextBlock x:Name="OutputFolder" Margin="20 10 0 0 "></TextBlock>
         </StackPanel>
         <views:PlaylistsView x:Name="Lists"  Grid.Row="1" />
     </Grid>

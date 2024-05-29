@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using MessageBox = System.Windows.MessageBox;
 
 namespace DjTool
 {
@@ -25,6 +26,7 @@ namespace DjTool
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(MainWindow));
         private TrackRenamer renamer;
+        private string outputDirectory;
 
         public MainWindow()
         {
@@ -93,6 +95,18 @@ namespace DjTool
             }
             
             MessageBox.Show("Файлы переименованы");
+        }
+
+        private void SelectOutputFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectFolderDialog = new Microsoft.Win32.OpenFolderDialog();
+            var result = selectFolderDialog.ShowDialog();
+
+            if (result == true)
+            {
+                outputDirectory = selectFolderDialog.FolderName;
+                this.OutputFolder.Text = outputDirectory;
+            }
         }
     }
 }
