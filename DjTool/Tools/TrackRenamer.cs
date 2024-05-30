@@ -20,7 +20,7 @@ namespace DjTool.Tools
             this.log = log;
         }
 
-        public void RenameTrack(TrackViewModel track, Action<TrackViewModel>? afterRename = null)
+        public void RenameTrack(TrackViewModel track, bool checkExisting = false)
         {
             var directory = Path.GetDirectoryName(track.FilePath);
             var newFileName = FileNameParser.FormatFileName(track.Name, track.SavedOrder, track.Speed);
@@ -32,9 +32,11 @@ namespace DjTool.Tools
             log.Info($"rename [{oldPath}] -> [{newPath}]");
             track.FilePath = newPath;
             
-            File.Move(oldPath, newPath);
-
-            afterRename?.Invoke(track);
+            if (!File.Exists(newPath))
+                File.Move(oldPath, newPath);
+            else
+                if (checkExisting)
+                    File.Delete(oldPath);
 
         }
     }

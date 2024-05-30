@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace DjTool.ViewModels
 {
@@ -61,6 +62,27 @@ namespace DjTool.ViewModels
                 for (var i = 0; i < trackViewModels.Count; i++)
                 {
                     trackViewModels[i].SetOrder(i + 1);
+                }
+            }
+        }
+
+        public void RemoveDuplicates()
+        {
+            var hashset = new HashSet<string>();
+
+            var i = 0;
+            while (i < trackViewModels.Count)
+            {
+                var item = trackViewModels[i];
+
+                if (hashset.Contains(item.FilePath))
+                {
+                    RemoveTodoItem(item);
+                }
+                else
+                {
+                    i++;
+                    hashset.Add(item.FilePath);
                 }
             }
         }

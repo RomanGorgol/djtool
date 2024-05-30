@@ -95,11 +95,13 @@ namespace DjTool
                 log.Info($"reset order [{item.Name}]");
 
                 item.ResetOrder();
-                renamer.RenameTrack(item);
+                renamer.RenameTrack(item, true);
 
                 sortedList.RemoveTodoItem(item);
                 lists.InProgressTrackListViewModel.AddTodoItem(item);
             }
+
+            lists.InProgressTrackListViewModel.RemoveDuplicates();
             
             MessageBox.Show("Файлы переименованы");
         }
