@@ -59,15 +59,38 @@ namespace DjTool
 
             foreach (var item in lists.CompletedTrackListViewModel.TrackViewModels)
             {
-                log.Info($"save order number [{item.Name}]");
-                item.SavedOrder = item.Order;
-                renamer.RenameTrack(item);
-                if (!string.IsNullOrEmpty(outputDirectory))
+                try
                 {
-                    var fileName = System.IO.Path.GetFileName(item.FilePath);
-                    var outputFilePath = System.IO.Path.Combine(outputDirectory, fileName);
-                    File.Copy(item.FilePath, outputFilePath, false);
+                    log.Info($"save order number [{item.Name}]");
+                    item.SavedOrder = item.Order;
+                    renamer.RenameTrack(item);
+                    if (!string.IsNullOrEmpty(outputDirectory))
+                    {
+                        try
+                        {
+                            var fileName = System.IO.Path.GetFileName(item.FilePath);
+                            var outputFilePath = System.IO.Path.Combine(outputDirectory, fileName);
+                            File.Copy(item.FilePath, outputFilePath, false);
+
+                        }catch (Exception ex)
+                        {
+                            log.Error($"error while copiyng track to output [{item.Name}] [{item.Order}] [{item.Speed}] [{item.FilePath}]", ex);
+
+                            MessageBox.Show($"Упс! Что-то пошло не так и получилось сохранить в папку с результатами [{item.Name}]." +
+                                $"Но ничего страшного, это не помешает остальным трекам." +
+                                $"Будет не лишним скинуть разработчику файл с логами {{LogFilePathProvider.GetLogFilepath()}}");
+                        }
+                    }
                 }
+                catch(Exception ex)
+                {
+                    log.Error($"error while saving number for track [{item.Name}] [{item.Order}] [{item.Speed}] [{item.FilePath}]", ex);
+
+                    MessageBox.Show($"Упс! Что-то пошло не так и получилось сохранить номер для трека [{item.Name}]." +
+                        $"Но ничего страшного, это не помешает остальным трекам. А этот нужно будет еще раз пронумеровать." +
+                        $"Будет не лишним скинуть разработчику файл с логами {LogFilePathProvider.GetLogFilepath()}");
+                }
+
 
             }
 
@@ -117,5 +140,7 @@ namespace DjTool
                 this.OutputFolder.Text = outputDirectory;
             }
         }
+
+
     }
 }

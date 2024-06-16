@@ -1,4 +1,5 @@
-﻿using DjTool.ViewModels;
+﻿using DjTool.Tools;
+using DjTool.ViewModels;
 using log4net;
 using log4net.Appender;
 using log4net.Config;
@@ -65,8 +66,7 @@ namespace DjTool
 
         private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfile.log");
-            MessageBox.Show("Упс! Что-то пошло не так. Отправь разработчику файл с логами, и он посмотрит, что случилось " + logPath,
+            MessageBox.Show("Упс! Что-то пошло не так. Отправь разработчику файл с логами, и он посмотрит, что случилось " + LogFilePathProvider.GetLogFilepath(),
                 "Ошибка", MessageBoxButton.OK,
                 MessageBoxImage.Error
                 );

@@ -201,7 +201,18 @@ namespace DjTool.Views
 
                 log.Info($"change speed [{item.Name}] [{item.Speed}]");
 
-                renamer.RenameTrack(item);
+                try
+                {
+                    renamer.RenameTrack(item);
+                }
+                catch(Exception ex) 
+                {
+                    log.Error($"error while saving speed for track [{item.Name}] [{item.Order}] [{item.Speed}] [{item.FilePath}]", ex);
+
+                    MessageBox.Show($"Упс! Что-то пошло не так и получилось сохранить изменения для трека [{item.Name}]. " +
+                        $"Если ошибка повторяется, скинь разраьотчику файл с логами {LogFilePathProvider.GetLogFilepath()}");
+                }
+                
             }
         }
 
