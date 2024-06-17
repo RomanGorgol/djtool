@@ -1,9 +1,11 @@
-﻿using DjTool.Views;
+﻿using DjTool.Tools;
+using DjTool.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace DjTool.ViewModels
 {
@@ -20,7 +22,22 @@ namespace DjTool.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public string Description => $"{(Order.HasValue ? Order.Value + " " : "")} {Name}";
-        public TrackSpeed Speed { get; set; }
+
+        private TrackSpeed speed;
+        public TrackSpeed Speed
+        {
+            get
+            {
+                return speed;
+            }
+            set 
+            {
+                speed = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Color"));
+            }
+        }
+
+        public Brush Color => SpeedToColorMapper.Map(Speed);
 
 
         public TrackViewModel(string name, string filePath, int? order)
