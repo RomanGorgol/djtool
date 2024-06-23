@@ -5,17 +5,18 @@ namespace DjTool.Tools
 {
     class SpeedToColorMapper
     {
-        private static Dictionary<TrackSpeed, Brush> speedToCOlorMap = new Dictionary<TrackSpeed, Brush>()
+        private static Dictionary<TrackSpeed, Brush> speedToColorMap = new Dictionary<TrackSpeed, Brush>()
         {
             { TrackSpeed.F, Brushes.Green },
-            { TrackSpeed.M, Brushes.Orange },
-            { TrackSpeed.M, Brushes.Orange },
+            { TrackSpeed.MF, Brushes.GreenYellow},
+            { TrackSpeed.M, Brushes.Yellow},
+            { TrackSpeed.SM, Brushes.Orange }, // new SolidColorBrush(Color.FromRgb(252, 78, 3))},
             { TrackSpeed.S, Brushes.Red}
         };
 
         public static Brush Map(TrackSpeed speed)
         {
-            return speedToCOlorMap.TryGetValue(speed, out var value)
+            return speedToColorMap.TryGetValue(speed, out var value)
                 ? value
                 : Brushes.Transparent;
 
