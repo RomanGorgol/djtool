@@ -19,17 +19,20 @@
                     <EventSetter Event="MouseMove" Handler="TodoItem_MouseMove" />
                     <EventSetter Event="DragOver" Handler="TodoItem_DragOver" />
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <DockPanel HorizontalAlignment="Stretch" 
-                               Margin="0" 
-                               Height="30"
+                               Margin="0px" 
+                               Height="35px"
                                Background="{Binding Path=Color, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
                         <TextBlock DockPanel.Dock="Left" MouseDown="TextBlock_MouseDown" 
                                    Name="TextBlock" 
-                                   Margin="5px"
+                                   Margin="5px 0px"
                                    VerticalAlignment="Center" Text="{Binding Path=Description, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBox Visibility="Collapsed" Name="TextBox" DockPanel.Dock="Left" 
                                  VerticalAlignment="Center" 
@@ -37,14 +40,14 @@
                                  MouseMove="ComboBox_MouseMove"
                                  KeyDown="TextBox_KeyDown"
                                  LostFocus="TextBox_LostFocus"
-                                 Margin="5px"
+                                 Margin="5px 0px"
                                  Height="22" />
                         <ComboBox DockPanel.Dock="Right" MouseMove="ComboBox_MouseMove" 
                                   SelectionChanged="ComboBox_SelectionChanged" SelectedValue="{Binding Path=Speed}" 
                                   ItemsSource="{Binding Path=TrackSpeedItems}" 
                                   AllowDrop="False" 
                                   HorizontalAlignment="Right" 
-                                  VerticalAlignment="Center" Width="100" Margin="0 0 10 0" Height="25"  SelectedValuePath="Value">
+                                  VerticalAlignment="Center" Width="100" Margin="0 0 5 0" Height="25"  SelectedValuePath="Value">
 
                         </ComboBox>
                     </DockPanel>

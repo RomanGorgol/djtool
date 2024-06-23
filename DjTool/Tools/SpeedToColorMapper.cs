@@ -7,11 +7,11 @@ namespace DjTool.Tools
     {
         private static Dictionary<TrackSpeed, Brush> speedToColorMap = new Dictionary<TrackSpeed, Brush>()
         {
-            { TrackSpeed.F, Brushes.Green },
+            { TrackSpeed.F, new SolidColorBrush(Color.FromRgb(4, 186, 77)) },
             { TrackSpeed.MF, Brushes.GreenYellow},
             { TrackSpeed.M, Brushes.Yellow},
             { TrackSpeed.SM, Brushes.Orange }, // new SolidColorBrush(Color.FromRgb(252, 78, 3))},
-            { TrackSpeed.S, Brushes.Red}
+            { TrackSpeed.S, new SolidColorBrush(Color.FromRgb(235, 64, 52))}
         };
 
         public static Brush Map(TrackSpeed speed)
