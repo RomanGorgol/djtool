@@ -6,16 +6,16 @@
              xmlns:local="clr-namespace:DjTool.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Margin="20px" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="40px" />
             </Grid.RowDefinitions>
 
             <TextBlock
@@ -25,25 +25,23 @@
 
             <local:TrackListView
                 Grid.Row="1"
-                Margin="0 10 0 0"
+                Margin="0 10 20 0"
                 DataContext="{Binding InProgressTrackListViewModel}" />
-        </Grid>
 
-        <Grid Grid.Column="1" Margin="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Text" HorizontalAlignment="Center" />
+
 
             <TextBlock
                 Grid.Row="0"
+                Grid.Column="1"
+                
                 FontSize="24"
                 Text="Плейлист" />
 
-                    <local:TrackListView
+            <local:TrackListView
+                Grid.Column="1"
                 Grid.Row="1"
                 Margin="0 10 0 0"
                 DataContext="{Binding CompletedTrackListViewModel}" />
-                </Grid>
     </Grid>
 </UserControl>
