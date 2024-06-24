@@ -15,7 +15,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="40px" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
             <TextBlock
@@ -27,9 +27,6 @@
                 Grid.Row="1"
                 Margin="0 10 20 0"
                 DataContext="{Binding InProgressTrackListViewModel}" />
-
-            <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Text" HorizontalAlignment="Center" />
-
 
             <TextBlock
                 Grid.Row="0"
@@ -43,5 +40,9 @@
                 Grid.Row="1"
                 Margin="0 10 0 0"
                 DataContext="{Binding CompletedTrackListViewModel}" />
+
+            <local:TracksVisualization Margin="0 20 0 0" DataContext="{Binding CompletedTrackListViewModel}"
+                                   Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" />
+
     </Grid>
 </UserControl>
