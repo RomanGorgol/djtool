@@ -26,13 +26,19 @@
             </ListView.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                        <StackPanel
+                    <StackPanel
                             
                             Background="{Binding Path=Color, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                             Margin="0px"
                                 Width="20px"
                                Height="35px"
-                                />
+                                >
+                        <StackPanel.ToolTip>
+                            <ToolTip>
+                                <TextBlock Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
+                            </ToolTip>
+                        </StackPanel.ToolTip>
+                    </StackPanel>
 
                 </DataTemplate>
             </ListView.ItemTemplate>
