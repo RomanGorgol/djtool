@@ -44,13 +44,20 @@ namespace DjTool.ViewModels
 
             if (oldIndex != -1 && nextIndex != -1)
             {
+                trackViewModels.Move(oldIndex, nextIndex);
                 if (ordered)
                 {
                     insertedTodoItem.SetOrder(nextIndex + 1);
                     targetTodoItem.SetOrder(oldIndex + 1);
-                }
 
-                trackViewModels.Move(oldIndex, nextIndex);
+                    if (Math.Abs(nextIndex - oldIndex) > 1)
+                    {
+                        for (var i = Math.Min(nextIndex, oldIndex); i <= Math.Max(nextIndex, oldIndex); i++)
+                        {
+                            trackViewModels[i].SetOrder(i + 1);
+                        }
+                    }
+                }
             }
         }
 
