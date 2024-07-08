@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -21,6 +22,7 @@ namespace DjTool.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        [JsonIgnore]
         public string Description => $"{(Order.HasValue ? Order.Value + " " : "")} {Name}";
 
         private TrackSpeed speed;
@@ -37,6 +39,7 @@ namespace DjTool.ViewModels
             }
         }
 
+        [JsonIgnore]
         public Brush Color => SpeedToColorMapper.Map(Speed);
 
 
@@ -72,6 +75,7 @@ namespace DjTool.ViewModels
             SavedOrder = null;
         }
 
+        [JsonIgnore]
         public TrackSpeedSelectItem[] TrackSpeedItems
         {
             get

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
@@ -92,6 +95,15 @@ namespace DjTool.ViewModels
                     hashset.Add(item.FilePath);
                 }
             }
+        }
+
+        public override string? ToString()
+        {
+            return JsonSerializer.Serialize(TrackViewModels, options: new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true
+            });
         }
     }
 }
