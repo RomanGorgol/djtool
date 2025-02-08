@@ -22,7 +22,7 @@ namespace DjTool
         private static readonly ILog log = LogManager.GetLogger(typeof(App));
         private TrackListViewModel inProgressTrackListViewModel;
         private TrackListViewModel completedTrackListViewModel;
-        private PlaylistsViewModel todoViewModel;
+        private PlaylistsViewModel playlistsViewModel;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -35,12 +35,12 @@ namespace DjTool
             inProgressTrackListViewModel = new TrackListViewModel(false);
             completedTrackListViewModel = new TrackListViewModel(true);
 
-            todoViewModel = new PlaylistsViewModel(log, inProgressTrackListViewModel, completedTrackListViewModel);
+            playlistsViewModel = new PlaylistsViewModel(log, inProgressTrackListViewModel, completedTrackListViewModel);
 
 
             MainWindow = new MainWindow()
             {
-                DataContext = todoViewModel
+                DataContext = playlistsViewModel
             };
             MainWindow.Show();
 
@@ -86,8 +86,8 @@ namespace DjTool
 
             var backupData = new BackupData()
             {
-                InProgressTrackListViewModel = todoViewModel.InProgressTrackListViewModel.TrackViewModels.ToList(),
-                CompletedTrackListViewModel = todoViewModel.CompletedTrackListViewModel.TrackViewModels.ToList(),
+                InProgressTrackListViewModel = playlistsViewModel.InProgressTrackListViewModel.TrackViewModels.ToList(),
+                CompletedTrackListViewModel = playlistsViewModel.CompletedTrackListViewModel.TrackViewModels.ToList(),
             };
 
             var serialized = JsonSerializer.Serialize(backupData, options: new JsonSerializerOptions
