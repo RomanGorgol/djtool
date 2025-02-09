@@ -57,7 +57,7 @@ namespace DjTool
         private void MainWindow_ContentRendered(object? sender, EventArgs e)
         {
             //var parser = new FileNameParser();
-            //todoViewModel.Add(Directory.GetFiles(@"C:\Data\Тестовая папка с музыкой").Select(x => parser.ParseFileName(x)).ToArray());
+            //playlistsViewModel.Add(Directory.GetFiles(@"C:\Data\Тестовая папка с музыкой").Select(x => parser.ParseFileName(x)).ToArray());
         }
 
         private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)

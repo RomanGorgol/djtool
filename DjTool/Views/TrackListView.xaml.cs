@@ -21,9 +21,6 @@ using System.Windows.Shapes;
 
 namespace DjTool.Views
 {
-    /// <summary>
-    /// Interaction logic for TodoItemListingView.xaml
-    /// </summary>
     public partial class TrackListView : UserControl
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(TrackListView));
@@ -85,7 +82,7 @@ namespace DjTool.Views
             var list = (TrackListViewModel)this.lvItems.DataContext;
 
 
-            list.InsertTodoItem(current, target);
+            list.InsertTrackItem(current, target);
         }
 
         private void TrackListList_DragOver(object sender, DragEventArgs e)

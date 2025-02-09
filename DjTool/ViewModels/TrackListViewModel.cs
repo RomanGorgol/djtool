@@ -35,23 +35,23 @@ namespace DjTool.ViewModels
             }
         }
 
-        public void InsertTodoItem(TrackViewModel insertedTodoItem, TrackViewModel targetTodoItem)
+        public void InsertTrackItem(TrackViewModel insertedTrackItem, TrackViewModel targetTrackItem)
         {
-            if (insertedTodoItem == targetTodoItem)
+            if (insertedTrackItem == targetTrackItem)
             {
                 return;
             }
 
-            int oldIndex = trackViewModels.IndexOf(insertedTodoItem);
-            int nextIndex = trackViewModels.IndexOf(targetTodoItem);
+            int oldIndex = trackViewModels.IndexOf(insertedTrackItem);
+            int nextIndex = trackViewModels.IndexOf(targetTrackItem);
 
             if (oldIndex != -1 && nextIndex != -1)
             {
                 trackViewModels.Move(oldIndex, nextIndex);
                 if (ordered)
                 {
-                    insertedTodoItem.SetOrder(nextIndex + 1);
-                    targetTodoItem.SetOrder(oldIndex + 1);
+                    insertedTrackItem.SetOrder(nextIndex + 1);
+                    targetTrackItem.SetOrder(oldIndex + 1);
 
                     if (Math.Abs(nextIndex - oldIndex) > 1)
                     {
