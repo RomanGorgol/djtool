@@ -39,7 +39,7 @@ namespace DjTool.Views
         private TrackViewModel CurrentItem = null;
         private TrackViewModel TargetItem = null;
 
-        private void TodoItem_MouseMove(object sender, MouseEventArgs e)
+        private void Track_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed &&
                 sender is FrameworkElement frameworkElement)
@@ -55,7 +55,7 @@ namespace DjTool.Views
 
                     if (dragDropResult == DragDropEffects.None)
                     {
-                        AddTodoItem(CurrentItem);
+                        AddTrack(CurrentItem);
                         CurrentItem = null;
                     }
                 }
@@ -64,7 +64,7 @@ namespace DjTool.Views
         }
 
 
-        private void TodoItem_DragOver(object sender, DragEventArgs e)
+        private void Track_DragOver(object sender, DragEventArgs e)
         {
             if (sender is FrameworkElement element)
             {
@@ -88,33 +88,33 @@ namespace DjTool.Views
             list.InsertTodoItem(current, target);
         }
 
-        private void TodoItemList_DragOver(object sender, DragEventArgs e)
+        private void TrackListList_DragOver(object sender, DragEventArgs e)
         {
-            var todoItem = (TrackViewModel)e.Data.GetData(DataFormats.Serializable);
+            var trackItem = (TrackViewModel)e.Data.GetData(DataFormats.Serializable);
 
-            if (todoItem != null)
+            if (trackItem != null)
             {
-                AddTodoItem(todoItem);
+                AddTrack(trackItem);
             }
 
             CheckScroll(sender, e);
         }
 
-        private void AddTodoItem(TrackViewModel todoItem)
+        private void AddTrack(TrackViewModel trackItem)
         {
-            (this.lvItems.DataContext as TrackListViewModel).AddTodoItem(todoItem);
+            (this.lvItems.DataContext as TrackListViewModel).AddTrack(trackItem);
         }
 
-        private void TodoItemList_DragLeave(object sender, DragEventArgs e)
+        private void TrackList_DragLeave(object sender, DragEventArgs e)
         {
             HitTestResult result = VisualTreeHelper.HitTest(lvItems, e.GetPosition(lvItems));
 
             if (result == null)
             {
-                var todoItem = (TrackViewModel)e.Data.GetData(DataFormats.Serializable);
+                var trackItem = (TrackViewModel)e.Data.GetData(DataFormats.Serializable);
 
-                if (todoItem != null)
-                    (this.lvItems.DataContext as TrackListViewModel).RemoveTodoItem(todoItem);
+                if (trackItem != null)
+                    (this.lvItems.DataContext as TrackListViewModel).RemoveTrack(trackItem);
 
             }
 

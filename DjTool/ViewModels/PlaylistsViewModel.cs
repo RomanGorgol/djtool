@@ -36,7 +36,7 @@ namespace DjTool.ViewModels
                     log.Info($"add track[{item.Name}] [{item.Speed}] [{item.SavedOrder}] [{item.FilePath}]");
 
                     if (!item.Order.HasValue)
-                        InProgressTrackListViewModel.AddTodoItem(item);
+                        InProgressTrackListViewModel.AddTrack(item);
                     else
                         itemsWithOrder.Add(item);
                 }
@@ -44,7 +44,7 @@ namespace DjTool.ViewModels
 
             foreach (var item in itemsWithOrder.OrderBy(x => x.Order.Value))
             {
-                CompletedTrackListViewModel.AddTodoItem(item);
+                CompletedTrackListViewModel.AddTrack(item);
             }
         }
     }

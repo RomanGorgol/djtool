@@ -23,7 +23,7 @@ namespace DjTool.ViewModels
             this.ordered = ordered;
         }
 
-        public void AddTodoItem(TrackViewModel item)
+        public void AddTrack(TrackViewModel item)
         {
             if (!trackViewModels.Contains(item))
             {
@@ -64,7 +64,7 @@ namespace DjTool.ViewModels
             }
         }
 
-        public void RemoveTodoItem(TrackViewModel item)
+        public void RemoveTrack(TrackViewModel item)
         {
             trackViewModels.Remove(item);
             if (ordered)
@@ -87,7 +87,7 @@ namespace DjTool.ViewModels
 
                 if (hashset.Contains(item.FilePath))
                 {
-                    RemoveTodoItem(item);
+                    RemoveTrack(item);
                 }
                 else
                 {

@@ -11,14 +11,14 @@
             x:Name="lvItems"
             AllowDrop="True"
             ItemsSource="{Binding TrackViewModels}"
-            DragOver="TodoItemList_DragOver"
-            DragLeave="TodoItemList_DragLeave"
+            DragOver="TrackListList_DragOver"
+            DragLeave="TrackList_DragLeave"
             
             >
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <EventSetter Event="MouseMove" Handler="TodoItem_MouseMove" />
-                    <EventSetter Event="DragOver" Handler="TodoItem_DragOver" />
+                    <EventSetter Event="MouseMove" Handler="Track_MouseMove" />
+                    <EventSetter Event="DragOver" Handler="Track_DragOver" />
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="BorderThickness" Value="1"/>
                     <Setter Property="Margin" Value="0"/>

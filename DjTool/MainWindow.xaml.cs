@@ -120,8 +120,8 @@ namespace DjTool
                 item.ResetOrder();
                 renamer.RenameTrack(item, true);
 
-                sortedList.RemoveTodoItem(item);
-                lists.InProgressTrackListViewModel.AddTodoItem(item);
+                sortedList.RemoveTrack(item);
+                lists.InProgressTrackListViewModel.AddTrack(item);
             }
 
             lists.InProgressTrackListViewModel.RemoveDuplicates();
